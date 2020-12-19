@@ -20,6 +20,22 @@ app.use((_req, _res, next) => {
   next(createError(404));
 });
 
+// development error handler
+// will print stacktrace
+if (development) {
+  app.use(function (err, req, res, next) {
+    console.log(err.stack);
+
+    res.status(err.status || 500);
+    res.json({
+      errors: {
+        message: err.message,
+        error: err,
+      },
+    });
+  });
+}
+
 // production error handler
 // no stacktraces leaked to user
 app.use((err, req, res, _next) => {
